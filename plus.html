@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treino 21 · Plus</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e1726">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-topo"><div class="wrap"><a class="logo" href="app.html" style="text-decoration:none">Treino<span>21</span></a><span class="tag-ia">🤖 Theo · IA</span></div></header>
+<main class="wrap" id="plus" style="padding:20px 16px 40px"></main>
+<div class="toast" id="toast" role="status"></div>
+<script src="config.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = window.C21 || {}, el = document.getElementById("plus");
+  var codigoPlus = (C.codigoPlus || "").toUpperCase();
+  function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function gravar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* segue */ } }
+
+  var c = (new URLSearchParams(location.search).get("c") || "").trim().toUpperCase();
+  if (c && c === codigoPlus) gravar("c21-acesso", c);
+  if ((ler("c21-acesso") || "").toUpperCase() !== codigoPlus) {
+    el.innerHTML = '<div class="portao"><h1>Plus</h1><p style="color:var(--muted)">Digite o código do Plus que chegou no seu e-mail.</p>' +
+      '<form id="f"><label for="cod">Código do Plus</label><input id="cod" autocomplete="off" autocapitalize="characters" placeholder="T21-XXXX"><p class="erro" role="alert" id="erro"></p>' +
+      '<button class="btn btn-lime" type="submit">Entrar</button></form></div>';
+    document.getElementById("f").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = document.getElementById("cod").value.trim().toUpperCase();
+      if (v === codigoPlus) { gravar("c21-acesso", v); location.reload(); }
+      else document.getElementById("erro").textContent = "Código não confere. Confira no e-mail da compra do Plus.";
+    });
+    return;
+  }
+
+  var LICOES = [
+    ["Como contar sem travar", [
+      "Escolha um momento fora da cama, sem pressa e sem celular na mão.",
+      "Fale de você, não de culpa: “Quero que a gente aproveite mais, e estou treinando para ter mais controle.”",
+      "Peça uma coisa concreta: “Às vezes vou pedir para ir mais devagar ou pausar. Você topa?”",
+      "Pergunte o que a outra pessoa gosta. Controle é para os dois, não uma prova sua."
+    ]],
+    ["Foco sensorial em 3 noites", [
+      "Noite 1: carícias pelo corpo todo, sem regiões íntimas e sem penetração. Revezem quem toca.",
+      "Noite 2: carícias incluindo as regiões íntimas, ainda sem penetração. Você dá nota na escala por dentro e respira no 5.",
+      "Noite 3: carícias livres e, se os dois quiserem, penetração bem devagar com uma pausa combinada.",
+      "Sem meta de terminar em nenhuma das noites. É isso que tira a pressão."
+    ]],
+    ["O sinal combinado", [
+      "Escolham uma palavra ou um toque que quer dizer “pausa”. Pode ser algo bobo: rir junto ajuda.",
+      "Na pausa, continuem com beijos e carícias, só sem o estímulo mais forte.",
+      "Volte quando a nota cair para 4 ou 5. Duas pausas por relação já fazem diferença."
+    ]],
+    ["Quando dá errado", [
+      "Vai acontecer. Em vez de pedir desculpa três vezes, diga uma vez com leveza e mude o foco para a outra pessoa: carícias, beijos, o que ela gosta.",
+      "Prazer não termina quando você termina. Muita gente aproveita mais o que vem antes e depois.",
+      "No dia seguinte, volte ao treino. Um dia ruim não apaga semanas de prática."
+    ]],
+    ["O prazer da outra pessoa", [
+      "Pergunte, sem roteiro: “O que você mais gosta?” e “Tem algo que você queria e nunca pediu?”",
+      "Ritmo devagar, preliminares longas e atenção ao que ela responde costumam valer mais do que tempo de penetração.",
+      "Combinem de conversar sobre isso de novo daqui a duas semanas. Relação boa é ajuste contínuo."
+    ]]
+  ];
+  var est = {};
+  try { est = JSON.parse(ler("c21-plus")) || {}; } catch (e) { est = {}; }
+  function salvar() { gravar("c21-plus", JSON.stringify(est)); }
+
+  function semana(n) {
+    return ["Semana " + n + ": músculo 3× (10 de 10 s + 15 rápidas), parar e recomeçar 1× sozinho ou a dois.",
+      "Semana " + n + ": músculo 3×, uma relação com 2 pausas combinadas e respiração desde o começo.",
+      "Semana " + n + ": músculo 3×, 15 minutos sob controle sozinho, sem tela.",
+      "Semana " + n + ": músculo 3×, foco sensorial de uma noite, e anote o que mudou desde o dia 1."][(n - 1) % 4];
+  }
+
+  function tela() {
+    var feitos = Object.keys(est).length;
+    el.innerHTML =
+      '<h1>Plus</h1><p style="color:var(--muted)">' + feitos + (feitos === 1 ? ' item feito.' : ' itens feitos.') + ' As lições são para fazer no seu ritmo; a manutenção é por semana.</p>' +
+      '<h2 style="margin-top:20px">Módulo casal</h2>' +
+      LICOES.map(function (l, i) {
+        var k = "l" + i;
+        return '<section class="bloco-dia"><h3>' + (i + 1) + '. ' + l[0] + '</h3><ol>' + l[1].map(function (p) { return "<li>" + p + "</li>"; }).join("") + '</ol>' +
+          '<label class="check-dia"><input type="checkbox" data-k="' + k + '"' + (est[k] ? " checked" : "") + '> Fiz esta lição</label></section>';
+      }).join("") +
+      '<h2 style="margin-top:20px">Mais 30 dias: manutenção</h2>' +
+      [1, 2, 3, 4].map(function (n) {
+        var k = "s" + n;
+        return '<label class="check-dia" style="margin-bottom:8px"><input type="checkbox" data-k="' + k + '"' + (est[k] ? " checked" : "") + '> ' + semana(n) + '</label>';
+      }).join("") +
+      '<p class="aviso" style="margin-top:14px">Depois dos 30 dias, mantenha o músculo 3 vezes por semana. Se pouco mudou, procure um urologista ou um fisioterapeuta pélvico.</p>' +
+      '<a class="btn btn-claro" href="app.html" style="margin-top:16px">← Voltar ao treino de 21 dias</a>' +
+      '<p class="q-ajuda" style="margin-top:20px">O Theo é uma inteligência artificial e não é médico. <a href="privacidade.html">Privacidade e termos</a></p>';
+  }
+  document.addEventListener("change", function (e) {
+    var k = e.target.dataset && e.target.dataset.k;
+    if (!k) return;
+    if (e.target.checked) est[k] = Date.now(); else delete est[k];
+    salvar(); tela();
+  });
+  tela();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treino 21 · seu acesso</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e1726">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topo"><div class="wrap"><span class="logo">Treino<span>21</span></span><span class="tag-ia">🤖 Theo · IA</span></div></header>
+<main class="wrap" style="padding:28px 16px 40px">
+  <h1>Pronto, seu treino está liberado. 💪</h1>
+  <p style="color:var(--muted)">Comece hoje: o dia 1 leva uns 10 minutos. Os próximos dias vão abrindo um por dia.</p>
+
+  <div class="cartao" style="margin:18px 0">
+    <p style="margin:0 0 4px;color:var(--muted)">Seu código de acesso</p>
+    <p id="codigo" style="font-size:26px;font-weight:800;letter-spacing:.06em;margin:0 0 12px">—</p>
+    <a class="btn btn-lime" href="app.html" id="entrar">Abrir o treino →</a>
+    <p class="q-ajuda" style="margin-top:10px">Dica: no celular, toque em “Compartilhar” (iPhone) ou nos três pontinhos (Android) e escolha <b>Adicionar à tela inicial</b>. O ícone aparece só como “Treino 21”.</p>
+  </div>
+
+  <div class="cartao" id="plus" hidden>
+    <span class="fase">OFERTA SÓ PARA QUEM COMPROU</span>
+    <h2 style="margin-top:6px">Plus: módulo casal + mais 30 dias</h2>
+    <ul class="lista">
+      <li>5 lições para levar o controle para a relação, com roteiros de conversa</li>
+      <li>Mais 30 dias de treino de manutenção depois do dia 21</li>
+      <li>Garantia de 7 dias, como o treino</li>
+    </ul>
+    <div class="preco" style="margin-top:8px">R$ <span id="preco-plus">97</span> <small>pagamento único</small></div>
+    <a class="btn btn-lime" id="link-plus" href="#" rel="noopener" style="margin-top:12px">Quero o Plus →</a>
+    <p class="q-ajuda" style="margin-top:8px">Não quer agora? Tudo bem: o treino de 21 dias já está completo.</p>
+  </div>
+
+  <p class="q-ajuda" style="margin-top:24px">O Theo é uma inteligência artificial e não é médico. Se precisar do reembolso, peça em até 7 dias pela plataforma de pagamento. <a href="privacidade.html">Privacidade e termos</a></p>
+</main>
+<script src="config.js"></script>
+<script>
+(function () {
+  var C = window.C21 || {};
+  var c = (new URLSearchParams(location.search).get("c") || "").trim().toUpperCase();
+  var ok = [C.codigo, C.codigoPlus].filter(Boolean).map(function (x) { return x.toUpperCase(); });
+  if (ok.indexOf(c) < 0) {
+    try { c = (localStorage.getItem("c21-acesso") || "").toUpperCase(); } catch (e) { c = ""; }
+  }
+  if (ok.indexOf(c) >= 0) {
+    try { localStorage.setItem("c21-acesso", c); } catch (e) { /* o app pede o código */ }
+    document.getElementById("codigo").textContent = c;
+  } else {
+    document.getElementById("codigo").textContent = "veja no seu e-mail";
+  }
+  if (C.checkoutPlus && c !== (C.codigoPlus || "").toUpperCase()) {
+    document.getElementById("plus").hidden = false;
+    document.getElementById("link-plus").href = C.checkoutPlus;
+    document.getElementById("preco-plus").textContent = C.precoPlus || "97";
+  }
+})();
+</script>
+</body>
+</html>
