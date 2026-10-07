@@ -3,10 +3,10 @@
 window.C21 = {
   // Link do checkout da Cakto do Controle 21 (R$37,90).
   // Vazio = o botão abre o WhatsApp e você cobra por Pix na mão.
-  checkout: "",
+  checkout: "https://pay.cakto.com.br/7x4ai4j_1181412",
 
   // Link do checkout da Cakto do Plus (módulo casal + mais 30 dias, R$97). Vazio = WhatsApp.
-  checkoutPlus: "",
+  checkoutPlus: "https://pay.cakto.com.br/um35jhw_1181424",
 
   // WhatsApp de atendimento, só números, com 55 e DDD. Vazio = esconde o botão.
   whatsapp: "",
