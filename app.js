@@ -181,6 +181,7 @@
 
   function iniciar() {
     if (!liberado()) return portao();
+    if (window.C21Metricas) window.C21Metricas.umaVezPorSessao("app_abriu");
     if (!est.perfil) return escolherPerfil();
     if (!est.inicio) { est.inicio = Date.now(); salvar(); }
     const lib = hojeLiberado();

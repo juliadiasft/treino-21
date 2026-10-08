@@ -14,7 +14,11 @@
   document.querySelectorAll("[data-so-whats]").forEach(e => { e.hidden = !C.whatsapp; });
   document.querySelectorAll("[data-whats-link]").forEach(e => { e.href = whats("Oi! Tenho uma dúvida sobre o Controle 21.") || "#"; });
 
+  const M = window.C21Metricas || { evento() {}, umaVezPorSessao() {}, umaVezPorAparelho() {} };
+  M.umaVezPorSessao("visita");
+
   function abrir() {
+    M.umaVezPorSessao("teste_inicio");
     respostas = []; passo = 0;
     quiz.hidden = false; pagina.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "hidden";
@@ -55,6 +59,7 @@
   }
 
   function final() {
+    M.umaVezPorSessao("teste_fim");
     const r = T.resultado(respostas), P = T.PERFIS[r.perfil];
     guardar("c21-perfil", r.perfil);
     const ALERTA = {
@@ -86,7 +91,7 @@
           <li>Foco extra no seu perfil: <b>${P.foco}</b></li>
         </ul>
         <div class="preco" style="margin-top:10px">R$ ${C.preco || "37,90"} <small>pagamento único · garantia de 7 dias</small></div>
-        ${comprar ? `<a class="btn btn-lime" href="${comprar}" rel="noopener" style="margin-top:12px">Quero começar hoje →</a>` : `<button class="btn btn-lime" type="button" disabled style="margin-top:12px">Vendas abrem em breve</button>`}
+        ${comprar ? `<a class="btn btn-lime" href="${comprar}" rel="noopener" data-comprar style="margin-top:12px">Quero começar hoje →</a>` : `<button class="btn btn-lime" type="button" disabled style="margin-top:12px">Vendas abrem em breve</button>`}
         <p class="q-ajuda" style="margin-top:10px">O acesso chega por e-mail na hora. Cobrança com nome neutro.</p>
       </div>
       <p class="q-ajuda" style="margin-top:14px">Este resultado é uma orientação de hábitos feita pela Maia, uma inteligência artificial. Não é diagnóstico médico.</p>`;
@@ -100,6 +105,7 @@
     else if (b.hasAttribute("data-op")) escolher(+b.dataset.op);
     else if (b.hasAttribute("data-voltar")) { if (passo) { passo--; pergunta(); } else fechar(); }
     else if (b.hasAttribute("data-fechar")) fechar();
+    else if (b.hasAttribute("data-comprar")) M.evento("clique_compra");
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !quiz.hidden) fechar(); });
   if (location.hash === "#teste") abrir();

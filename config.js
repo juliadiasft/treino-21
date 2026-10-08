@@ -17,6 +17,9 @@ window.C21 = {
   codigo: "T21-THEO",
   codigoPlus: "T21-PLUS",
 
+  // Contador do funil (Cloudflare, grátis). Vazio = não conta nada.
+  metricas: "https://treino21-metricas.juliadiasfr.workers.dev",
+
   preco: "37,90",
   precoPlus: "97",
 };

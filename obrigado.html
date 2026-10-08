@@ -37,6 +37,7 @@
   <p class="q-ajuda" style="margin-top:24px">A Maia é uma inteligência artificial e não é médica. Se precisar do reembolso, peça em até 7 dias pela plataforma de pagamento. <a href="privacidade.html">Privacidade e termos</a></p>
 </main>
 <script src="config.js"></script>
+<script src="metricas.js"></script>
 <script>
 (function () {
   var C = window.C21 || {};
@@ -48,12 +49,16 @@
   if (ok.indexOf(c) >= 0) {
     try { localStorage.setItem("c21-acesso", c); } catch (e) { /* o app pede o código */ }
     document.getElementById("codigo").textContent = c;
+    if (window.C21Metricas) window.C21Metricas.umaVezPorAparelho("compra");
   } else {
     document.getElementById("codigo").textContent = "veja no seu e-mail";
   }
   if (C.checkoutPlus && c !== (C.codigoPlus || "").toUpperCase()) {
     document.getElementById("plus").hidden = false;
     document.getElementById("link-plus").href = C.checkoutPlus;
+    document.getElementById("link-plus").addEventListener("click", function () {
+      if (window.C21Metricas) window.C21Metricas.evento("plus_clique");
+    });
     document.getElementById("preco-plus").textContent = C.precoPlus || "97";
   }
 })();

@@ -13,6 +13,7 @@
 <main class="wrap" id="plus" style="padding:20px 16px 40px"></main>
 <div class="toast" id="toast" role="status"></div>
 <script src="config.js"></script>
+<script src="metricas.js"></script>
 <script>
 (function () {
   "use strict";
@@ -22,7 +23,10 @@
   function gravar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* segue */ } }
 
   var c = (new URLSearchParams(location.search).get("c") || "").trim().toUpperCase();
-  if (c && c === codigoPlus) gravar("c21-acesso", c);
+  if (c && c === codigoPlus) {
+    gravar("c21-acesso", c);
+    if (window.C21Metricas) window.C21Metricas.umaVezPorAparelho("plus_compra");
+  }
   if ((ler("c21-acesso") || "").toUpperCase() !== codigoPlus) {
     el.innerHTML = '<div class="portao"><h1>Plus</h1><p style="color:var(--muted)">Digite o código do Plus que chegou no seu e-mail.</p>' +
       '<form id="f"><label for="cod">Código do Plus</label><input id="cod" autocomplete="off" autocapitalize="characters" placeholder="T21-XXXX"><p class="erro" role="alert" id="erro"></p>' +
