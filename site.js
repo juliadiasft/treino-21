@@ -89,7 +89,7 @@
         ${comprar ? `<a class="btn btn-lime" href="${comprar}" rel="noopener" style="margin-top:12px">Quero começar hoje →</a>` : `<button class="btn btn-lime" type="button" disabled style="margin-top:12px">Vendas abrem em breve</button>`}
         <p class="q-ajuda" style="margin-top:10px">O acesso chega por e-mail na hora. Cobrança com nome neutro.</p>
       </div>
-      <p class="q-ajuda" style="margin-top:14px">Este resultado é uma orientação de hábitos feita pelo Theo, uma inteligência artificial. Não é diagnóstico médico.</p>`;
+      <p class="q-ajuda" style="margin-top:14px">Este resultado é uma orientação de hábitos feita pela Maia, uma inteligência artificial. Não é diagnóstico médico.</p>`;
     corpo.querySelector("#q-titulo").focus();
   }
 

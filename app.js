@@ -99,7 +99,7 @@
       <label class="check-dia"><input type="checkbox" data-feito ${est.feitos[t.dia] ? "checked" : ""}> Fiz o dia ${t.dia}</label>
       ${t.dia < 21 && t.dia + 1 > lib ? `<p class="q-ajuda" style="margin-top:10px">O dia ${t.dia + 1} abre amanhã. Um dia de cada vez: o músculo precisa de descanso.</p>` : ""}
       ${t.dia === 21 && est.feitos[21] ? plus() : ""}
-      <p class="q-ajuda" style="margin:24px 0 32px">O Theo é uma inteligência artificial e não é médico. Dor, sangue ou dificuldade de ereção: procure um urologista. <a href="privacidade.html">Privacidade e termos</a></p>`;
+      <p class="q-ajuda" style="margin:24px 0 32px">A Maia é uma inteligência artificial e não é médica. Dor, sangue ou dificuldade de ereção: procure um urologista. <a href="privacidade.html">Privacidade e termos</a></p>`;
   }
 
   function escala() {
